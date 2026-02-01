@@ -34,19 +34,26 @@
 </head>
 <body>
   <script>
-  window.addEventListener('load', function(ev) {
-    _flutter.loader.loadEntrypoint({
-      onEntrypointLoaded: async function(engineInitializer) {
-        let config = {
-          renderer: "canvaskit", // ★ ここで CanvasKit を指定
-        };
-        const appRunner = await engineInitializer.initializeEngine(config);
-        await appRunner.runApp();
-      };
+    window.addEventListener('load', function(ev) {
+      // Flutterエンジンのエントリポイントをロード
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          getOrigin: () => window.location.origin,
+        }
+      }).then(function(engineInitializer) {
+        // エンジンの初期化（ここでレンダラーを指定）
+        return engineInitializer.initializeEngine({
+          renderer: "canvaskit",
+          useColorEmoji: true
+        });
+      }).then(function(appRunner) {
+        // アプリの実行
+        return appRunner.runApp();
+      });
     });
-  });
-　</script>
+  </script>
 </body>
 </html>
+
 
 
