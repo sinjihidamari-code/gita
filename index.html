@@ -33,6 +33,19 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
-  <script src="flutter_bootstrap.js" async></script>
+  <script>
+  window.addEventListener('load', function(ev) {
+    _flutter.loader.loadEntrypoint({
+      onEntrypointLoaded: async function(engineInitializer) {
+        let config = {
+          renderer: "canvaskit", // ★ ここで CanvasKit を指定
+        };
+        const appRunner = await engineInitializer.initializeEngine(config);
+        await appRunner.runApp();
+      }
+    });
+  });
+</script>
 </body>
 </html>
+
